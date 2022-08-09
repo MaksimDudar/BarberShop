@@ -3,11 +3,13 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sqlite3'
 
+
+
 configure do
-	@db = SQLite3::Database.new 'barbershop.db'
-	@db.execute 'CREATE TABLE
-		"Users"
-			(
+	db = get_db
+	db.execute 'CREATE TABLE if not exists
+	  "Users"
+		(
 				"ID" INTEGER PRIMARY KEY AUTOINCREMENT,
 				"Name" VARCHAR,
 				"Phone" VARCHAR,
@@ -46,9 +48,24 @@ hh.each do |key, value|
   end
 end
 
+def get_db
+		return SQLite3::Database.new 'barbershop.db'
+end
+
+db = get_db
+db.execute 'INSERT INTO
+	Users
+	(
+			name,
+			phone,
+			datestamp,
+			barber,
+			color
+			)
+			values(?, ?, ?, ?, ?)', [@username, @phone, @datetime, @barber, @color]
+
 @title = 'Thank you!'
 @message = "Dear #{@username}, we will waiting for you at #{@datetime}, your barber will #{@barber}, color will #{@color}"
-
 
 @f = File.open 'users.txt', 'a'
 @f.write "User: #{@username}, phone: #{@phone}, date and time: #{@datetime}, barber #{@barber},color #{@color}"
