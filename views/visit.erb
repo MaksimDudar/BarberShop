@@ -30,12 +30,13 @@ $(function(){
   </div>
 
   <div class="form-group">
-  <label for="barber-select">Choose your Barber:</label>
-  <select name="barber" id="barber-select">
-      <option value="">--Please choose a Brber--</option>
-      <option <%= @barber == 'Walter White' ? 'selected' : '' %>  value="Walter White">Walter White</option>
-      <option <%= @barber == 'Jessie Pinkman' ? 'selected' : '' %>  value="Jessie Pinkman">Jessie Pinkman</option>
-      <option <%= @barber == 'Gus Fring' ? 'selected' : '' %> value="Gus Fring">Gus Fring</option>
+  <label>Choose your Barber:</label>
+  <select name="barber" class="form-control">
+
+      <% @barbers.each do |item| %>
+        <option <%= @barber == item['Name'] ? 'selected' : '' %>><%= item ['Name'] %></option>
+      <% end %> %>
+
   </select>
   </div>
 
